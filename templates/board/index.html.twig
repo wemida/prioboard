@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PrioBoard{% endblock %}
+{% block body_class %}board-screen{% endblock %}
+{% block body_attributes %}
+    data-board-version="{{ settings.boardVersion }}"
+    data-refresh-interval="{{ settings.refreshInterval }}"
+    data-meta-url="{{ path('api_board_meta') }}"
+{% endblock %}
+
+{% block body %}
+    <main class="board-page">
+        <header class="board-header">
+            <div>
+                <p class="eyebrow">Priority overview</p>
+                <h1>PrioBoard</h1>
+            </div>
+            <div class="board-header-meta">
+                <p>Read-only display</p>
+                <a href="{{ path('app_login') }}">Edit</a>
+            </div>
+        </header>
+
+        <section class="board-grid">
+            {% for key, label in columns %}
+                <article class="board-column">
+                    <header class="column-header">
+                        <h2>{{ label }}</h2>
+                        <span>{{ cardsByColumn[key]|length }}</span>
+                    </header>
+
+                    <div class="column-cards">
+                        {% for card in cardsByColumn[key] %}
+                            <div class="board-card color-{{ settings.cardColorsEnabled ? (card.color ?? 'neutral') : 'neutral' }}">
+                                <p>{{ card.title }}</p>
+                            </div>
+                        {% else %}
+                            <div class="board-card board-card-empty">
+                                <p>No items</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </article>
+            {% endfor %}
+        </section>
+    </main>
+{% endblock %}

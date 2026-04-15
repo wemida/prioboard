@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Settings | PrioBoard{% endblock %}
+{% block body_class %}admin-screen{% endblock %}
+
+{% block body %}
+    <main class="admin-page">
+        <header class="admin-header">
+            <div>
+                <p class="eyebrow">Configuration</p>
+                <h1>Settings</h1>
+            </div>
+            <nav class="admin-nav">
+                <a class="button" href="{{ path('app_admin') }}">Back to editor</a>
+                <a class="button" href="{{ path('app_board') }}">View board</a>
+            </nav>
+        </header>
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="flash flash-{{ label == 'error' ? 'error' : 'success' }}">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
+
+        <section class="settings-grid">
+            <article class="panel">
+                <div class="panel-heading">
+                    <h2>Display settings</h2>
+                    <p>Choose the public board look and refresh behavior.</p>
+                </div>
+                {{ form_start(settingsForm, { attr: { class: 'stack-form' } }) }}
+                    {{ form_row(settingsForm.skin) }}
+                    {{ form_row(settingsForm.cardColorsEnabled) }}
+                    {{ form_row(settingsForm.fontSize) }}
+                    {{ form_row(settingsForm.refreshInterval) }}
+                    {{ form_row(settingsForm.apiKey) }}
+                    <button class="button button-primary" type="submit">Save settings</button>
+                {{ form_end(settingsForm) }}
+            </article>
+
+            <article class="panel">
+                <div class="panel-heading">
+                    <h2>Login settings</h2>
+                    <p>Only one editor account exists for this board.</p>
+                </div>
+                {{ form_start(accountForm, { attr: { class: 'stack-form' } }) }}
+                    {{ form_row(accountForm.username) }}
+                    {{ form_row(accountForm.plainPassword) }}
+                    <button class="button button-primary" type="submit">Save login</button>
+                {{ form_end(accountForm) }}
+            </article>
+
+            <article class="panel settings-panel-full">
+                <div class="panel-heading">
+                    <h2>Public API</h2>
+                    <p>Anonymous clients can read board data. Writes require the API key from above in the <code>X-API-Key</code> header.</p>
+                </div>
+                <div class="api-example">
+                    <p><strong>Read board:</strong> <code>GET {{ absolute_url(path('api_board')) }}</code></p>
+                    <p><strong>Create card:</strong> <code>POST {{ absolute_url(path('api_card_create')) }}</code></p>
+                    <p><strong>Move card:</strong> <code>POST {{ absolute_url(path('api_card_move', { id: 1, direction: 'up' }))|replace({'/1/': '/{id}/'}) }}</code></p>
+                </div>
+            </article>
+        </section>
+    </main>
+{% endblock %}

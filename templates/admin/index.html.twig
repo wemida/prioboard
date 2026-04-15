@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Board | PrioBoard{% endblock %}
+{% block body_class %}admin-screen{% endblock %}
+
+{% block body %}
+    <main class="admin-page">
+        <header class="admin-header">
+            <div>
+                <p class="eyebrow">Editor</p>
+                <h1>Board editor</h1>
+            </div>
+            <nav class="admin-nav">
+                <a class="button" href="{{ path('app_board') }}">View board</a>
+                <a class="button" href="{{ path('app_admin_settings') }}">Settings</a>
+                <a class="button" href="{{ path('app_logout') }}">Logout</a>
+            </nav>
+        </header>
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="flash flash-{{ label == 'error' ? 'error' : 'success' }}">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
+
+        <section class="admin-layout">
+            <aside class="panel">
+                <div class="panel-heading">
+                    <h2>Add card</h2>
+                    <p>Titles are capped at 100 characters.</p>
+                </div>
+                {{ form_start(cardForm, { attr: { class: 'stack-form' } }) }}
+                    {{ form_row(cardForm.title) }}
+                    {{ form_row(cardForm.columnKey) }}
+                    {{ form_row(cardForm.color) }}
+                    <button class="button button-primary" type="submit">Create card</button>
+                {{ form_end(cardForm) }}
+            </aside>
+
+            <section class="admin-board">
+                {% for key, label in columns %}
+                    <article class="panel">
+                        <header class="column-header">
+                            <h2>{{ label }}</h2>
+                            <span>{{ cardsByColumn[key]|length }}</span>
+                        </header>
+
+                        <div class="admin-card-list">
+                            {% for card in cardsByColumn[key] %}
+                                <article class="admin-card color-{{ settings.cardColorsEnabled ? (card.color ?? 'neutral') : 'neutral' }}">
+                                    <div class="admin-card-main">
+                                        <p>{{ card.title }}</p>
+                                        <small>#{{ card.position }}</small>
+                                    </div>
+                                    <div class="admin-actions">
+                                        <a class="button button-small" href="{{ path('app_admin_card_edit', { id: card.id }) }}">Edit</a>
+
+                                        <form method="post" action="{{ path('app_admin_card_move', { id: card.id, direction: 'up' }) }}">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('move-card-' ~ card.id) }}">
+                                            <button class="button button-small" type="submit">Up</button>
+                                        </form>
+
+                                        <form method="post" action="{{ path('app_admin_card_move', { id: card.id, direction: 'down' }) }}">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('move-card-' ~ card.id) }}">
+                                            <button class="button button-small" type="submit">Down</button>
+                                        </form>
+
+                                        {% for targetKey, targetLabel in columns %}
+                                            {% if targetKey != key %}
+                                                <form method="post" action="{{ path('app_admin_card_move', { id: card.id, direction: targetKey }) }}">
+                                                    <input type="hidden" name="_token" value="{{ csrf_token('move-card-' ~ card.id) }}">
+                                                    <button class="button button-small" type="submit">{{ targetLabel }}</button>
+                                                </form>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        <form method="post" action="{{ path('app_admin_card_delete', { id: card.id }) }}" onsubmit="return confirm('Delete this card?');">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('delete-card-' ~ card.id) }}">
+                                            <button class="button button-danger button-small" type="submit">Delete</button>
+                                        </form>
+                                    </div>
+                                </article>
+                            {% else %}
+                                <p class="muted">No cards in this column.</p>
+                            {% endfor %}
+                        </div>
+                    </article>
+                {% endfor %}
+            </section>
+        </section>
+    </main>
+{% endblock %}
