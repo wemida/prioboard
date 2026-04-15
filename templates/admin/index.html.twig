@@ -7,7 +7,6 @@
     <main class="admin-page">
         <header class="admin-header">
             <div>
-                <p class="eyebrow">Editor</p>
                 <h1>Board editor</h1>
             </div>
             <nav class="admin-nav">
@@ -39,7 +38,7 @@
 
             <section class="admin-board">
                 {% for key, label in columns %}
-                    <article class="panel">
+                    <article class="panel board-column-{{ key }}">
                         <header class="column-header">
                             <h2>{{ label }}</h2>
                             <span>{{ cardsByColumn[key]|length }}</span>
@@ -49,7 +48,7 @@
                             {% for card in cardsByColumn[key] %}
                                 <article class="admin-card color-{{ card.color ?? 'neutral' }}">
                                     <div class="admin-card-main">
-                                        <p>{{ card.title }}</p>
+                                        <p><span class="card-index">{{ loop.index }}.</span> {{ card.title }}</p>
                                         <small>#{{ card.position }}</small>
                                     </div>
                                     <div class="admin-actions">

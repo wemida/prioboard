@@ -78,6 +78,11 @@ a {
     margin-bottom: 10px;
 }
 
+.board-header h1,
+.admin-header h1 {
+    font-weight: lighter;
+}
+
 .eyebrow {
     margin: 0 0 8px;
     font-size: 0.85rem;
@@ -100,7 +105,8 @@ h1 {
 
 h2 {
     margin-bottom: 0;
-    font-size: 1.1rem;
+    font-size: 1.55rem;
+    line-height: 1;
 }
 
 .board-header-meta {
@@ -124,6 +130,23 @@ h2 {
     border-radius: var(--radius);
     box-shadow: var(--shadow);
     backdrop-filter: blur(10px);
+}
+
+.board-column,
+.admin-board > .panel {
+    border-left-width: 5px;
+}
+
+.board-column-wip {
+    border-left-color: #4e9457;
+}
+
+.board-column-prio1 {
+    border-left-color: #be4a4a;
+}
+
+.board-column-prio2 {
+    border-left-color: #4f79b8;
 }
 
 .board-column {
@@ -174,6 +197,10 @@ h2 {
     line-height: 1.2;
     font-weight: 700;
     text-wrap: balance;
+}
+
+.card-index {
+    color: #7c8794;
 }
 
 .board-card-empty {
@@ -332,7 +359,7 @@ small {
 .admin-card-main p {
     margin: 0;
     font-weight: 700;
-    line-height: 1.02;
+    line-height: 1.08;
 }
 
 .admin-actions {

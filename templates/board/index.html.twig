@@ -12,18 +12,16 @@
     <main class="board-page">
         <header class="board-header">
             <div>
-                <p class="eyebrow">Priority overview</p>
                 <h1>PrioBoard</h1>
             </div>
-            <div class="board-header-meta">
-                <p>Read-only display</p>
-                <a href="{{ path('app_login') }}">Edit</a>
-            </div>
+            <nav class="admin-nav">
+                <a class="button" href="{{ path('app_login') }}">Edit</a>
+            </nav>
         </header>
 
         <section class="board-grid">
             {% for key, label in columns %}
-                <article class="board-column">
+                <article class="board-column board-column-{{ key }}">
                     <header class="column-header">
                         <h2>{{ label }}</h2>
                         <span>{{ cardsByColumn[key]|length }}</span>
@@ -32,7 +30,7 @@
                     <div class="column-cards">
                         {% for card in cardsByColumn[key] %}
                             <div class="board-card color-{{ card.color ?? 'neutral' }}">
-                                <p>{{ card.title }}</p>
+                                <p><span class="card-index">{{ loop.index }}.</span> {{ card.title }}</p>
                             </div>
                         {% else %}
                             <div class="board-card board-card-empty">
