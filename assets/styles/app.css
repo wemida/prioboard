@@ -1,13 +1,13 @@
 :root {
-    --bg: #f4efe6;
-    --panel: rgba(255, 250, 242, 0.92);
-    --panel-strong: #fffaf2;
-    --line: rgba(33, 40, 56, 0.14);
-    --text: #18202d;
-    --muted: #5f6977;
-    --accent: #b6442f;
-    --shadow: 0 16px 40px rgba(25, 29, 35, 0.1);
-    --radius: 24px;
+    --bg: #dfeaf4;
+    --panel: rgba(246, 250, 255, 0.94);
+    --panel-strong: #fafdff;
+    --line: rgba(30, 58, 92, 0.16);
+    --text: #162235;
+    --muted: #546579;
+    --accent: #3e7f45;
+    --shadow: 0 14px 30px rgba(20, 43, 67, 0.1);
+    --radius: 10px;
     --card-font: 1.3rem;
     --title-font: 2.8rem;
 }
@@ -26,9 +26,9 @@ body {
     font-family: "Segoe UI", "Trebuchet MS", sans-serif;
     color: var(--text);
     background:
-        radial-gradient(circle at top left, rgba(217, 117, 82, 0.18), transparent 28%),
-        radial-gradient(circle at bottom right, rgba(48, 103, 124, 0.18), transparent 32%),
-        linear-gradient(135deg, #efe4d4 0%, #f8f5ee 45%, #e9eef2 100%);
+        radial-gradient(circle at top left, rgba(95, 145, 202, 0.22), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(72, 117, 170, 0.18), transparent 34%),
+        linear-gradient(135deg, #d9e7f3 0%, #edf4fb 48%, #d6e3ef 100%);
 }
 
 a {
@@ -66,7 +66,7 @@ a {
 .admin-page {
     width: min(1500px, calc(100vw - 32px));
     margin: 0 auto;
-    padding: 24px 0 32px;
+    padding: 10px 0 12px;
 }
 
 .board-header,
@@ -75,7 +75,7 @@ a {
     justify-content: space-between;
     align-items: flex-start;
     gap: 16px;
-    margin-bottom: 24px;
+    margin-bottom: 10px;
 }
 
 .eyebrow {
@@ -114,7 +114,7 @@ h2 {
 .board-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 18px;
+    gap: 8px;
 }
 
 .board-column,
@@ -127,7 +127,7 @@ h2 {
 }
 
 .board-column {
-    padding: 18px;
+    padding: 8px;
 }
 
 .column-header {
@@ -135,7 +135,7 @@ h2 {
     justify-content: space-between;
     align-items: center;
     gap: 12px;
-    margin-bottom: 16px;
+    margin-bottom: 6px;
 }
 
 .column-header span {
@@ -150,21 +150,22 @@ h2 {
 .column-cards,
 .admin-card-list {
     display: grid;
-    gap: 14px;
+    gap: 8px;
 }
 
 .board-card,
 .admin-card {
-    padding: 18px;
+    padding: 8px 10px;
     border: 1px solid var(--line);
-    border-radius: 20px;
+    border-bottom: 5px solid var(--line);
+    border-radius: 8px;
     background: var(--panel-strong);
 }
 
 .board-card {
-    min-height: 112px;
+    /*min-height: 0;*/
     display: flex;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .board-card p {
@@ -188,33 +189,33 @@ h2 {
 }
 
 .color-neutral {
-    background: linear-gradient(180deg, #fffdf9 0%, #f5efe4 100%);
+    background: #ffffff;
 }
 
 .color-red {
-    background: linear-gradient(180deg, #fff0eb 0%, #f8d1c7 100%);
+    background: linear-gradient(135deg, #fff5f5 0%, #ffb6b6 100%);
 }
 
 .color-orange {
-    background: linear-gradient(180deg, #fff4e8 0%, #f5d8b5 100%);
+    background: linear-gradient(135deg, #f8ebe4 0%, #ffc99c 100%);
 }
 
 .color-yellow {
-    background: linear-gradient(180deg, #fff9e8 0%, #efe1a5 100%);
+    background: linear-gradient(135deg, #fffae9 0%, #fff698 100%);
 }
 
 .color-green {
-    background: linear-gradient(180deg, #eef9ec 0%, #cfe7c7 100%);
+    background: linear-gradient(135deg, #f2ffdd 0%, #a2ff86 100%);
 }
 
 .color-blue {
-    background: linear-gradient(180deg, #edf6fb 0%, #cfe1ed 100%);
+    background: linear-gradient(135deg, #dae8fc 0%, #89bfff 100%);
 }
 
 .admin-layout,
 .settings-grid {
     display: grid;
-    gap: 20px;
+    gap: 10px;
 }
 
 .admin-layout {
@@ -224,7 +225,7 @@ h2 {
 .admin-board {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px;
+    gap: 10px;
 }
 
 .settings-grid {
@@ -236,11 +237,11 @@ h2 {
 }
 
 .panel {
-    padding: 20px;
+    padding: 10px;
 }
 
 .panel-heading {
-    margin-bottom: 18px;
+    margin-bottom: 8px;
 }
 
 .panel-heading p,
@@ -254,7 +255,7 @@ small {
 .admin-nav,
 .admin-actions {
     display: flex;
-    gap: 10px;
+    gap: 6px;
 }
 
 .stack-form {
@@ -264,16 +265,16 @@ small {
 .stack-form label,
 .stack-form > div {
     display: grid;
-    gap: 8px;
+    gap: 4px;
 }
 
 .stack-form input,
 .stack-form select,
 .stack-form textarea {
     width: 100%;
-    padding: 12px 14px;
+    padding: 8px 10px;
     border: 1px solid var(--line);
-    border-radius: 14px;
+    border-radius: 6px;
     background: #fff;
     color: var(--text);
     font: inherit;
@@ -289,9 +290,9 @@ small {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 14px;
+    padding: 7px 10px;
     border: 1px solid var(--line);
-    border-radius: 999px;
+    border-radius: 4px;
     background: var(--panel-strong);
     color: var(--text);
     text-decoration: none;
@@ -315,13 +316,13 @@ small {
 }
 
 .button-small {
-    padding: 7px 11px;
+    padding: 5px 8px;
     font-size: 0.88rem;
 }
 
 .admin-card {
     display: grid;
-    gap: 14px;
+    gap: 6px;
 }
 
 .admin-card-main {
@@ -333,7 +334,7 @@ small {
 .admin-card-main p {
     margin: 0;
     font-weight: 700;
-    line-height: 1.25;
+    line-height: 1.02;
 }
 
 .admin-actions {
@@ -341,18 +342,18 @@ small {
 }
 
 .flash {
-    margin-bottom: 14px;
-    padding: 12px 14px;
-    border-radius: 16px;
+    margin-bottom: 8px;
+    padding: 8px 10px;
+    border-radius: 6px;
     border: 1px solid var(--line);
 }
 
 .flash-success {
-    background: rgba(86, 134, 90, 0.12);
+    background: rgba(77, 122, 168, 0.12);
 }
 
 .flash-error {
-    background: rgba(182, 68, 47, 0.12);
+    background: rgba(69, 103, 145, 0.12);
 }
 
 .admin-login-page {
@@ -386,7 +387,7 @@ small {
     .board-page,
     .admin-page {
         width: min(100vw - 20px, 100%);
-        padding-top: 18px;
+        padding-top: 8px;
     }
 
     .board-header,
