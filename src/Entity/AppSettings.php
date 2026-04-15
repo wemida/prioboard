@@ -37,9 +37,6 @@ class AppSettings
     #[Assert\Choice(choices: self::SKINS)]
     private string $skin = self::SKIN_COLOR;
 
-    #[ORM\Column]
-    private bool $cardColorsEnabled = true;
-
     #[ORM\Column(length: 20)]
     #[Assert\Choice(choices: self::FONT_SIZES)]
     private string $fontSize = self::FONT_MEDIUM;
@@ -75,18 +72,6 @@ class AppSettings
     public function setSkin(string $skin): self
     {
         $this->skin = $skin;
-
-        return $this;
-    }
-
-    public function isCardColorsEnabled(): bool
-    {
-        return $this->cardColorsEnabled;
-    }
-
-    public function setCardColorsEnabled(bool $cardColorsEnabled): self
-    {
-        $this->cardColorsEnabled = $cardColorsEnabled;
 
         return $this;
     }

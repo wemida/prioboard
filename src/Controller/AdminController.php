@@ -30,16 +30,10 @@ class AdminController extends AbstractController
     ): Response {
         $settings = $settingsService->getSettings();
         $card = new Card();
-        $form = $this->createForm(CardType::class, $card, [
-            'colors_enabled' => $settings->isCardColorsEnabled(),
-        ]);
+        $form = $this->createForm(CardType::class, $card);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if (!$settings->isCardColorsEnabled()) {
-                $card->setColor('neutral');
-            }
-
             $cardService->createCard($card);
             $this->addFlash('success', 'Card created.');
 
@@ -63,16 +57,10 @@ class AdminController extends AbstractController
     ): Response {
         $settings = $settingsService->getSettings();
         $originalColumnKey = $card->getColumnKey();
-        $form = $this->createForm(CardType::class, $card, [
-            'colors_enabled' => $settings->isCardColorsEnabled(),
-        ]);
+        $form = $this->createForm(CardType::class, $card);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if (!$settings->isCardColorsEnabled()) {
-                $card->setColor('neutral');
-            }
-
             $cardService->updateCard($card, $originalColumnKey);
             $this->addFlash('success', 'Card updated.');
 
@@ -131,10 +119,6 @@ class AdminController extends AbstractController
         $accountForm->handleRequest($request);
 
         if ($settingsForm->isSubmitted() && $settingsForm->isValid()) {
-            if ($settings->getSkin() === 'mono') {
-                $settings->setCardColorsEnabled(false);
-            }
-
             $entityManager->flush();
             $settingsService->touchBoard();
             $this->addFlash('success', 'Settings updated.');

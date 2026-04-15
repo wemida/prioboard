@@ -47,7 +47,7 @@
 
                         <div class="admin-card-list">
                             {% for card in cardsByColumn[key] %}
-                                <article class="admin-card color-{{ settings.cardColorsEnabled ? (card.color ?? 'neutral') : 'neutral' }}">
+                                <article class="admin-card color-{{ card.color ?? 'neutral' }}">
                                     <div class="admin-card-main">
                                         <p>{{ card.title }}</p>
                                         <small>#{{ card.position }}</small>

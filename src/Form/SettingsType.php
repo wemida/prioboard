@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\AppSettings;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -21,10 +20,6 @@ class SettingsType extends AbstractType
                     'Color screen' => AppSettings::SKIN_COLOR,
                     'Monochrome screen' => AppSettings::SKIN_MONO,
                 ],
-            ])
-            ->add('cardColorsEnabled', CheckboxType::class, [
-                'label' => 'Allow colored cards',
-                'required' => false,
             ])
             ->add('fontSize', ChoiceType::class, [
                 'choices' => [

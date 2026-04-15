@@ -22,7 +22,7 @@
     <body
         class="
             app-shell
-            {% if settings is defined %}skin-{{ settings.skin }} font-{{ settings.fontSize }} colors-{{ settings.cardColorsEnabled ? 'on' : 'off' }}{% endif %}
+            {% if settings is defined %}skin-{{ settings.skin }} font-{{ settings.fontSize }}{% endif %}
             {% block body_class %}{% endblock %}
         "
         {% block body_attributes %}{% endblock %}

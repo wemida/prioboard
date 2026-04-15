@@ -28,7 +28,6 @@ class ApiController extends AbstractController
         return $this->json([
             'settings' => [
                 'skin' => $settings->getSkin(),
-                'cardColorsEnabled' => $settings->isCardColorsEnabled(),
                 'fontSize' => $settings->getFontSize(),
                 'refreshInterval' => $settings->getRefreshInterval(),
                 'boardVersion' => $settings->getBoardVersion(),
@@ -68,10 +67,6 @@ class ApiController extends AbstractController
             ->setColumnKey((string) ($payload['column'] ?? Card::COLUMN_WIP))
             ->setColor(isset($payload['color']) ? (string) $payload['color'] : 'neutral');
 
-        if (!$settingsService->getSettings()->isCardColorsEnabled()) {
-            $card->setColor('neutral');
-        }
-
         $violations = $this->validator->validate($card);
         if (count($violations) > 0) {
             return $this->json(['error' => (string) $violations], Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -101,10 +96,6 @@ class ApiController extends AbstractController
         }
         if (array_key_exists('color', $payload)) {
             $card->setColor($payload['color'] ? (string) $payload['color'] : null);
-        }
-
-        if (!$settingsService->getSettings()->isCardColorsEnabled()) {
-            $card->setColor('neutral');
         }
 
         $violations = $this->validator->validate($card);

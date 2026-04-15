@@ -181,8 +181,6 @@ h2 {
     justify-content: center;
 }
 
-.colors-off .board-card,
-.colors-off .admin-card,
 .skin-mono .board-card,
 .skin-mono .admin-card {
     background: var(--panel-strong);

@@ -31,7 +31,7 @@
 
                     <div class="column-cards">
                         {% for card in cardsByColumn[key] %}
-                            <div class="board-card color-{{ settings.cardColorsEnabled ? (card.color ?? 'neutral') : 'neutral' }}">
+                            <div class="board-card color-{{ card.color ?? 'neutral' }}">
                                 <p>{{ card.title }}</p>
                             </div>
                         {% else %}

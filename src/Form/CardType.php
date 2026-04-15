@@ -13,8 +13,6 @@ class CardType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $colorsEnabled = (bool) $options['colors_enabled'];
-
         $builder
             ->add('title', TextType::class, [
                 'label' => 'Title',
@@ -33,7 +31,6 @@ class CardType extends AbstractType
             ])
             ->add('color', ChoiceType::class, [
                 'label' => 'Card color',
-                'disabled' => !$colorsEnabled,
                 'choices' => [
                     'Neutral' => 'neutral',
                     'Red' => 'red',
@@ -49,9 +46,6 @@ class CardType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Card::class,
-            'colors_enabled' => true,
         ]);
-
-        $resolver->setAllowedTypes('colors_enabled', 'bool');
     }
 }
