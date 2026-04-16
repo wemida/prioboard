@@ -73,4 +73,18 @@ class AdminController extends AbstractController
             'accountForm' => $accountForm,
         ]);
     }
+
+    #[Route('/settings/api-key/regenerate', name: 'app_admin_settings_api_key_regenerate', methods: ['POST'])]
+    public function regenerateApiKey(
+        AppSettingsService $settingsService,
+        EntityManagerInterface $entityManager,
+    ): Response {
+        $settings = $settingsService->getSettings();
+        $settings->setApiKey(bin2hex(random_bytes(16)));
+        $entityManager->flush();
+        $settingsService->touchBoard();
+        $this->addFlash('success', 'API key regenerated.');
+
+        return $this->redirectToRoute('app_admin_settings');
+    }
 }

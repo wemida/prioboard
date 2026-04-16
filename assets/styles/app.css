@@ -623,6 +623,13 @@ small {
     border-radius: 6px;
 }
 
+.api-key-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 6px;
+    align-items: center;
+}
+
 @media (max-width: 1100px) {
     .board-grid,
     .admin-board,
