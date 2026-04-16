@@ -18,8 +18,10 @@ class BoardController extends AbstractController
 
         return $this->render('board/index.html.twig', [
             'settings' => $settings,
-            'columns' => $this->getColumns(),
+            'columns' => self::columns(),
             'cardsByColumn' => $cardRepository->findGroupedByColumn(),
+            'editable' => $this->isGranted('ROLE_ADMIN'),
+            'cardColors' => Card::COLORS,
         ]);
     }
 
@@ -35,11 +37,4 @@ class BoardController extends AbstractController
         ];
     }
 
-    /**
-     * @return array<string, string>
-     */
-    private function getColumns(): array
-    {
-        return self::columns();
-    }
 }

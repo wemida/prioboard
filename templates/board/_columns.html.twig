@@ -1,0 +1,68 @@
+{% for key, label in columns %}
+    <article class="board-column board-column-{{ key }}" data-column="{{ key }}">
+        <header class="column-header">
+            <div class="column-header-main">
+                <h2>{{ label }}</h2>
+                {% if editable %}
+                    <button class="button icon-button column-add-trigger" type="button" data-column-focus="{{ key }}" aria-label="Add card">+</button>
+                {% endif %}
+            </div>
+            <span>{{ cardsByColumn[key]|length }}</span>
+        </header>
+
+        <div class="column-cards" data-card-list>
+            {% for card in cardsByColumn[key] %}
+                <article
+                    class="board-card color-{{ card.color ?? 'neutral' }}{{ editable ? ' board-card-editable' : '' }}"
+                    data-card-id="{{ card.id }}"
+                    data-card-title="{{ card.title }}"
+                    data-card-color="{{ card.color ?? 'neutral' }}"
+                    data-card-column="{{ card.columnKey }}"
+                    draggable="{{ editable ? 'true' : 'false' }}"
+                >
+                    <p><span class="card-index">{{ loop.index }}.</span> {{ card.title }}</p>
+
+                    {% if editable %}
+                        <div class="card-actions">
+                            <button class="button icon-button" type="button" data-card-edit="{{ card.id }}" aria-label="Edit card">✎</button>
+                            <button class="button icon-button button-danger" type="button" data-card-delete="{{ card.id }}" aria-label="Delete card">✕</button>
+                        </div>
+                    {% endif %}
+                </article>
+            {% else %}
+                <div class="board-card board-card-empty">
+                    <p>No items</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        {% if editable %}
+            <footer class="column-quick-add">
+                <div class="quick-add-form">
+                    <input
+                        class="quick-add-input"
+                        type="text"
+                        maxlength="100"
+                        placeholder="Add card and press Enter"
+                        data-quick-add-input="{{ key }}"
+                    >
+                    <button class="button color-picker-button color-neutral" type="button" data-color-button data-selected-color="neutral" aria-label="Choose color"></button>
+                    <button class="button button-primary" type="button" data-quick-add-submit="{{ key }}">+</button>
+                </div>
+                <div class="color-picker" data-color-picker hidden>
+                    {% for color in cardColors %}
+                        <button
+                            class="button color-picker-option color-{{ color }}"
+                            type="button"
+                            data-color-option="{{ color }}"
+                            aria-label="{{ color|capitalize }}"
+                        >
+                            <span class="color-swatch color-{{ color }}"></span>
+                            <span>{{ color|capitalize }}</span>
+                        </button>
+                    {% endfor %}
+                </div>
+            </footer>
+        {% endif %}
+    </article>
+{% endfor %}

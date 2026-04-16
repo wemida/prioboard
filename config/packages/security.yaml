@@ -18,13 +18,13 @@ security:
             form_login:
                 login_path: app_login
                 check_path: app_login
-                default_target_path: app_admin
+                default_target_path: app_board
                 enable_csrf: true
             logout:
                 path: app_logout
 
     access_control:
-        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/board/manage, roles: ROLE_ADMIN }
         - { path: ^/logout, roles: ROLE_ADMIN }
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/, roles: PUBLIC_ACCESS }

@@ -16,7 +16,7 @@ class SecurityController extends AbstractController
         $settingsService->getUser();
 
         if ($this->getUser()) {
-            return $this->redirectToRoute('app_admin');
+            return $this->redirectToRoute('app_board');
         }
 
         return $this->render('security/login.html.twig', [

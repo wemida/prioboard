@@ -69,6 +69,10 @@ a {
     padding: 10px 0 12px;
 }
 
+.board-shell {
+    position: relative;
+}
+
 .board-header,
 .admin-header {
     display: flex;
@@ -153,6 +157,12 @@ h2 {
     padding: 8px;
 }
 
+.column-header-main {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
 .column-header {
     display: flex;
     justify-content: space-between;
@@ -174,6 +184,7 @@ h2 {
 .admin-card-list {
     display: grid;
     gap: 8px;
+    min-height: 2rem;
 }
 
 .board-card,
@@ -186,7 +197,7 @@ h2 {
 }
 
 .board-card {
-    /*min-height: 0;*/
+    position: relative;
     display: flex;
     align-items: flex-start;
 }
@@ -194,13 +205,46 @@ h2 {
 .board-card p {
     margin: 0;
     font-size: var(--card-font);
-    line-height: 1.2;
+    line-height: 1.08;
     font-weight: 700;
     text-wrap: balance;
 }
 
 .card-index {
     color: #7c8794;
+}
+
+.board-card-editable {
+    cursor: grab;
+}
+
+.board-card-editable.is-dragging {
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    inset: auto;
+    width: calc(100% - 20px);
+}
+
+.board-card-editing {
+    cursor: default;
+}
+
+.card-actions {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 120ms ease-in-out;
+}
+
+.board-card-editable:hover .card-actions,
+.board-card-editable:focus-within .card-actions {
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .board-card-empty {
@@ -345,6 +389,17 @@ small {
     font-size: 0.88rem;
 }
 
+.icon-button {
+    min-width: 2rem;
+    min-height: 2rem;
+    padding: 0;
+    line-height: 1;
+}
+
+.column-add-trigger {
+    font-size: 1.1rem;
+}
+
 .admin-card {
     display: grid;
     gap: 6px;
@@ -379,6 +434,175 @@ small {
 
 .flash-error {
     background: rgba(69, 103, 145, 0.12);
+}
+
+.column-quick-add {
+    margin-top: 8px;
+    display: grid;
+    gap: 6px;
+    position: relative;
+}
+
+.quick-add-form {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 6px;
+}
+
+.inline-edit-row {
+    grid-template-columns: 1fr auto auto auto;
+}
+
+.quick-add-input {
+    min-width: 0;
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: #fff;
+    color: var(--text);
+    font: inherit;
+}
+
+.color-picker-button {
+    width: 2rem;
+    min-width: 2rem;
+    height: auto;
+    padding: 0;
+}
+
+.color-picker-button {
+    border-width: 1px;
+}
+
+.color-picker-button.color-neutral {
+    background: #ffffff;
+}
+
+.color-picker-button.color-red {
+    background: linear-gradient(135deg, #fff5f5 0%, #ffb6b6 100%);
+}
+
+.color-picker-button.color-orange {
+    background: linear-gradient(135deg, #f8ebe4 0%, #ffc99c 100%);
+}
+
+.color-picker-button.color-yellow {
+    background: linear-gradient(135deg, #fffae9 0%, #fff698 100%);
+}
+
+.color-picker-button.color-green {
+    background: linear-gradient(135deg, #f2ffdd 0%, #a2ff86 100%);
+}
+
+.color-picker-button.color-blue {
+    background: linear-gradient(135deg, #dae8fc 0%, #89bfff 100%);
+}
+
+.color-picker {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 2.45rem;
+    z-index: 20;
+    display: grid;
+    gap: 4px;
+    grid-auto-rows: min-content;
+    min-width: 10rem;
+    padding: 6px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--panel-strong);
+    box-shadow: 0 8px 20px rgba(20, 43, 67, 0.16);
+    height: auto;
+}
+
+.color-picker[hidden] {
+    display: none;
+}
+
+.color-picker-option {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    min-height: 0;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 5px 8px;
+    background: #fff;
+    line-height: 1.2;
+    font-size: 0.95rem;
+}
+
+.color-picker-option:hover,
+.color-picker-option:focus-visible {
+    background: rgba(95, 145, 202, 0.12);
+    border-color: rgba(62, 127, 69, 0.28);
+}
+
+.color-picker-option span {
+    pointer-events: none;
+}
+
+.color-swatch {
+    width: 0.95rem;
+    min-width: 0.95rem;
+    height: 0.95rem;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+}
+
+.color-swatch.color-neutral {
+    background: #ffffff;
+}
+
+.color-swatch.color-red {
+    background: linear-gradient(135deg, #fff5f5 0%, #ffb6b6 100%);
+}
+
+.color-swatch.color-orange {
+    background: linear-gradient(135deg, #f8ebe4 0%, #ffc99c 100%);
+}
+
+.color-swatch.color-yellow {
+    background: linear-gradient(135deg, #fffae9 0%, #fff698 100%);
+}
+
+.color-swatch.color-green {
+    background: linear-gradient(135deg, #f2ffdd 0%, #a2ff86 100%);
+}
+
+.color-swatch.color-blue {
+    background: linear-gradient(135deg, #dae8fc 0%, #89bfff 100%);
+}
+
+.board-column.is-column-drop-target .column-cards {
+    background: rgba(62, 127, 69, 0.05);
+    border-radius: 6px;
+}
+
+.board-card-drop-placeholder {
+    min-height: 3rem;
+    border: 2px dashed rgba(62, 127, 69, 0.45);
+    border-bottom-width: 2px;
+    background: rgba(62, 127, 69, 0.06);
+    box-shadow: inset 0 0 0 1px rgba(62, 127, 69, 0.08);
+}
+
+.inline-edit-form {
+    width: 100%;
+    display: grid;
+    gap: 6px;
+    position: relative;
+}
+
+.inline-edit-form .quick-add-input {
+    min-width: 0;
+}
+
+.inline-edit-form .color-picker {
+    right: 4.85rem;
 }
 
 .admin-login-page {

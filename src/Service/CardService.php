@@ -46,13 +46,7 @@ class CardService
 
     public function moveToColumn(Card $card, string $columnKey): void
     {
-        $previousColumn = $card->getColumnKey();
-        $card->setColumnKey($columnKey);
-        $card->setPosition($this->cardRepository->getMaxPosition($columnKey) + 1);
-        $this->entityManager->flush();
-        $this->normalizePositions($previousColumn);
-        $this->normalizePositions($columnKey);
-        $this->settingsService->touchBoard();
+        $this->moveToPosition($card, $columnKey, $this->cardRepository->getMaxPosition($columnKey) + 1);
     }
 
     public function moveUp(Card $card): void
@@ -97,5 +91,30 @@ class CardService
         }
 
         $this->entityManager->flush();
+    }
+
+    public function moveToPosition(Card $card, string $columnKey, int $position): void
+    {
+        $previousColumn = $card->getColumnKey();
+        $card->setColumnKey($columnKey);
+
+        $cards = $this->cardRepository->findByColumnOrdered($columnKey);
+        $cards = array_values(array_filter($cards, static fn (Card $existingCard): bool => $existingCard->getId() !== $card->getId()));
+
+        $targetIndex = max(0, min($position - 1, count($cards)));
+        array_splice($cards, $targetIndex, 0, [$card]);
+
+        foreach ($cards as $index => $columnCard) {
+            $columnCard->setColumnKey($columnKey);
+            $columnCard->setPosition($index + 1);
+        }
+
+        $this->entityManager->flush();
+
+        if ($previousColumn !== $columnKey) {
+            $this->normalizePositions($previousColumn);
+        }
+
+        $this->settingsService->touchBoard();
     }
 }
