@@ -8,11 +8,12 @@ use App\Service\AppSettingsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class BoardController extends AbstractController
 {
     #[Route('/', name: 'app_board')]
-    public function index(CardRepository $cardRepository, AppSettingsService $settingsService): Response
+    public function index(CardRepository $cardRepository, AppSettingsService $settingsService, AuthenticationUtils $authenticationUtils): Response
     {
         $settings = $settingsService->getSettings();
 
@@ -22,6 +23,8 @@ class BoardController extends AbstractController
             'cardsByColumn' => $cardRepository->findGroupedByColumn(),
             'editable' => $this->isGranted('ROLE_ADMIN'),
             'cardColors' => Card::COLORS,
+            'last_username' => $authenticationUtils->getLastUsername(),
+            'error' => $authenticationUtils->getLastAuthenticationError(),
         ]);
     }
 

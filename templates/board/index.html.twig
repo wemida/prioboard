@@ -18,6 +18,7 @@
         data-card-update-template="{{ path('app_board_manage_card_update', { id: '__ID__' }) }}"
         data-card-delete-template="{{ path('app_board_manage_card_delete', { id: '__ID__' }) }}"
         data-card-move-template="{{ path('app_board_manage_card_move', { id: '__ID__' }) }}"
+        data-controller="modal"
     >
         <header class="board-header">
             <div>
@@ -28,7 +29,7 @@
                     <a class="button" href="{{ path('app_admin_settings') }}">Settings</a>
                     <a class="button" href="{{ path('app_logout') }}">Logout</a>
                 {% else %}
-                    <a class="button" href="{{ path('app_login') }}">Login</a>
+                    <a class="button" href="{{ path('app_login') }}" data-action="click->modal#open">Login</a>
                 {% endif %}
             </nav>
         </header>
@@ -43,5 +44,37 @@
                 } only %}
             </div>
         </section>
+
+        {% if not editable %}
+            <div class="modal-overlay {{ error ? '' : 'hidden' }}" data-modal-target="overlay" data-action="click->modal#close"></div>
+            <div class="modal {{ error ? '' : 'hidden' }}" data-modal-target="modal">
+                <section class="panel">
+                    <div class="panel-heading">
+                        <h1>Login</h1>
+                    </div>
+
+                    {% if error %}
+                        <div class="flash flash-error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
+
+                    <form action="{{ path('app_login') }}" method="post" class="stack-form" data-turbo="false">
+                        <label>
+                            <span>Username</span>
+                            <input type="text" name="_username" value="{{ last_username }}" autocomplete="username" required {{ error ? 'autofocus' : '' }}>
+                        </label>
+                        <label>
+                            <span>Password</span>
+                            <input type="password" name="_password" autocomplete="current-password" required>
+                        </label>
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                        <button class="button button-primary" type="submit">Login</button>
+                    </form>
+
+                    <div class="modal-close-row">
+                        <button class="button" data-action="click->modal#close">Cancel</button>
+                    </div>
+                </section>
+            </div>
+        {% endif %}
     </main>
 {% endblock %}
