@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\AppSettings;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -33,6 +34,15 @@ class SettingsType extends AbstractType
                     'min' => 10,
                     'max' => 600,
                 ],
+            ])
+            ->add('deleteConfirmationEnabled', ChoiceType::class, [
+                'label' => 'Ask before deleting cards',
+                'choices' => [
+                    'Yes' => true,
+                    'No' => false,
+                ],
+                'multiple' => false,
+                'required' => true,   // key part
             ]);
     }
 

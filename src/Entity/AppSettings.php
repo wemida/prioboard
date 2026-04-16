@@ -45,6 +45,9 @@ class AppSettings
     #[Assert\Range(min: 10, max: 600)]
     private int $refreshInterval = 30;
 
+    #[ORM\Column]
+    private bool $deleteConfirmationEnabled = true;
+
     #[ORM\Column(length: 64, nullable: true)]
     private ?string $apiKey = null;
 
@@ -103,6 +106,18 @@ class AppSettings
     public function getApiKey(): ?string
     {
         return $this->apiKey;
+    }
+
+    public function isDeleteConfirmationEnabled(): bool
+    {
+        return $this->deleteConfirmationEnabled;
+    }
+
+    public function setDeleteConfirmationEnabled(bool $deleteConfirmationEnabled): self
+    {
+        $this->deleteConfirmationEnabled = $deleteConfirmationEnabled;
+
+        return $this;
     }
 
     public function setApiKey(?string $apiKey): self

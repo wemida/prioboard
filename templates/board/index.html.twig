@@ -13,6 +13,7 @@
         class="board-page board-page-{{ editable ? 'editable' : 'readonly' }}"
         data-board-app
         data-editable="{{ editable ? 'true' : 'false' }}"
+        data-delete-confirmation="{{ settings.deleteConfirmationEnabled ? 'true' : 'false' }}"
         data-create-url="{{ path('app_board_manage_card_create') }}"
         data-card-update-template="{{ path('app_board_manage_card_update', { id: '__ID__' }) }}"
         data-card-delete-template="{{ path('app_board_manage_card_delete', { id: '__ID__' }) }}"

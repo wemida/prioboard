@@ -12,7 +12,7 @@ class BoardSmokeTest extends WebTestCase
         $client->request('GET', '/');
 
         self::assertResponseIsSuccessful();
-        self::assertSelectorTextContains('h1', 'PrioBoard');
+        self::assertSelectorTextContains('h1', 'Priority Board');
         self::assertSelectorTextContains('.column-header h2', 'WIP');
     }
 

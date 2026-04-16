@@ -6,15 +6,22 @@ class BoardApp {
         this.root = root;
         this.columnsContainer = root.querySelector('[data-board-columns]');
         this.editable = root.dataset.editable === 'true';
+        this.deleteConfirmationEnabled = root.dataset.deleteConfirmation === 'true';
         this.createUrl = root.dataset.createUrl || '';
         this.updateTemplate = root.dataset.cardUpdateTemplate || '';
         this.deleteTemplate = root.dataset.cardDeleteTemplate || '';
         this.moveTemplate = root.dataset.cardMoveTemplate || '';
         this.dragState = null;
         this.activeEditCardId = null;
+        this.init();
     }
 
     init() {
+        if (this.root.dataset.initialized === 'true') {
+            return;
+        }
+        this.root.dataset.initialized = 'true';
+
         if (this.editable) {
             this.bindEditableEvents();
             this.bindDocumentEvents();
@@ -476,7 +483,7 @@ class BoardApp {
     }
 
     async deleteCard(cardId) {
-        if (!window.confirm('Delete this card?')) {
+        if (this.deleteConfirmationEnabled && !window.confirm('Delete this card?')) {
             return;
         }
 
@@ -556,7 +563,9 @@ function initReadonlyRefresh() {
     }, refreshInterval * 1000);
 }
 
-const boardRoot = document.querySelector('[data-board-app]');
-if (boardRoot) {
-    new BoardApp(boardRoot).init();
-}
+document.addEventListener('turbo:load', () => {
+    const boardRoot = document.querySelector('[data-board-app]');
+    if (boardRoot) {
+        new BoardApp(boardRoot);
+    }
+});
