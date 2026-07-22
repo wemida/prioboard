@@ -73,6 +73,19 @@ a {
     position: relative;
 }
 
+.app-footer {
+    width: min(1500px, calc(100vw - 32px));
+    margin: 0 auto;
+    padding: 20px 0 8px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.app-footer a {
+    font-weight: 600;
+}
+
 .board-header,
 .admin-header {
     display: flex;
@@ -422,6 +435,7 @@ small {
 }
 
 .flash {
+    margin-top: 18px;
     margin-bottom: 8px;
     padding: 8px 10px;
     border-radius: 6px;
@@ -429,11 +443,11 @@ small {
 }
 
 .flash-success {
-    background: rgba(77, 122, 168, 0.12);
+    background: rgb(94 168 77 / 0.12);
 }
 
 .flash-error {
-    background: rgba(69, 103, 145, 0.12);
+    background: rgb(204 68 68 / 0.12);
 }
 
 .column-quick-add {

@@ -19,7 +19,7 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('app_board');
         }
 
-        $error = $authenticationUtils->getLastAuthenticationError();
+        $error = $authenticationUtils->getLastAuthenticationError(false);
         if ($error) {
             return $this->redirectToRoute('app_board');
         }
