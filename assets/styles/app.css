@@ -672,6 +672,26 @@ small {
     border-radius: 6px;
 }
 
+.api-docs { max-width: 1100px; }
+.api-docs-intro, .api-reference { margin-bottom: 16px; }
+.api-facts { display: grid; gap: 10px; }
+.api-facts div { display: grid; grid-template-columns: minmax(150px, 0.3fr) 1fr; gap: 12px; }
+.api-facts dt { color: var(--muted); font-weight: 600; }
+.api-facts dd { margin: 0; overflow-wrap: anywhere; }
+.api-endpoints { display: grid; gap: 16px; margin-bottom: 16px; }
+.api-endpoint-heading { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.api-method, .api-auth { border-radius: 999px; padding: 4px 9px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em; }
+.api-method-get { background: #dcecff; color: #174f88; }
+.api-method-post { background: #dcf4e4; color: #236237; }
+.api-method-put { background: #fff0ce; color: #79510b; }
+.api-method-delete { background: #ffe1e1; color: #8c2828; }
+.api-auth { margin-left: auto; background: rgba(0, 0, 0, 0.06); color: var(--muted); }
+.api-endpoint h3, .api-reference h3 { margin: 20px 0 8px; font-size: 1rem; }
+.api-docs pre { margin: 8px 0 14px; padding: 14px; overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: rgba(0, 0, 0, 0.055); line-height: 1.5; }
+.api-table-wrap { overflow-x: auto; }
+.api-table { width: 100%; border-collapse: collapse; text-align: left; }
+.api-table th, .api-table td { padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+
 .api-key-row {
     display: grid;
     grid-template-columns: 1fr auto;

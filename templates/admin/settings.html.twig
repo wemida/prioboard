@@ -37,27 +37,6 @@
 
             <article class="panel">
                 <div class="panel-heading">
-                    <h2>Docs</h2>
-                    <p>Priority Board is a simple, open-source Kanban like taskboard app to keep track of your work.
-                        <br /><a href="https://github.com/wemida/prioboard" target="_blank">View the project and source code on GitHub</a>.</p>
-                    <p>For E-Paper and monochrome Screens you can change the skin to black and white (monochrome skin).</p>
-                </div>
-            </article>
-
-            <article class="panel">
-                <div class="panel-heading">
-                    <h2>Login settings</h2>
-                    <p>Only one editor account exists for this board.</p>
-                </div>
-                {{ form_start(accountForm, { attr: { class: 'stack-form' } }) }}
-                    {{ form_row(accountForm.username) }}
-                    {{ form_row(accountForm.plainPassword) }}
-                    <button class="button button-primary" type="submit">Save login</button>
-                {{ form_end(accountForm) }}
-            </article>
-
-            <article class="panel">
-                <div class="panel-heading">
                     <h2>API access</h2>
                     <p>The API is readonly and publicly available. Write operations require the API key in the <code>X-API-Key</code> header.</p>
                 </div>
@@ -76,7 +55,28 @@
                 <div class="api-example">
                     <p><strong>Read board:</strong> <code>GET {{ absolute_url(path('api_board')) }}</code></p>
                     <p><strong>Create card:</strong> <code>POST {{ absolute_url(path('api_card_create')) }}</code></p>
-                    <p><strong>Move card:</strong> <code>POST {{ absolute_url(path('api_card_move', { id: 1, direction: 'up' }))|replace({'/1/': '/{id}/'}) }}</code></p>
+                    <a class="button" href="{{ path('app_admin_api_docs') }}">View full API documentation</a>
+                </div>
+            </article>
+
+            <article class="panel">
+                <div class="panel-heading">
+                    <h2>Login settings</h2>
+                    <p>Only one editor account exists for this board.</p>
+                </div>
+                {{ form_start(accountForm, { attr: { class: 'stack-form' } }) }}
+                    {{ form_row(accountForm.username) }}
+                    {{ form_row(accountForm.plainPassword) }}
+                    <button class="button button-primary" type="submit">Save login</button>
+                {{ form_end(accountForm) }}
+            </article>
+
+            <article class="panel">
+                <div class="panel-heading">
+                    <h2>Info</h2>
+                    <p>Priority Board is a simple, open-source Kanban like taskboard app to keep track of your work.
+                        <br /><a href="https://github.com/wemida/prioboard" target="_blank">View the project and source code on GitHub</a>.</p>
+                    <p>For E-Paper and monochrome Screens you can change the skin to black and white (monochrome skin).</p>
                 </div>
             </article>
         </section>

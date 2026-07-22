@@ -74,6 +74,14 @@ class AdminController extends AbstractController
         ]);
     }
 
+    #[Route('/api-docs', name: 'app_admin_api_docs', methods: ['GET'])]
+    public function apiDocs(AppSettingsService $settingsService): Response
+    {
+        return $this->render('admin/api_docs.html.twig', [
+            'settings' => $settingsService->getSettings(),
+        ]);
+    }
+
     #[Route('/settings/api-key/regenerate', name: 'app_admin_settings_api_key_regenerate', methods: ['POST'])]
     public function regenerateApiKey(
         AppSettingsService $settingsService,

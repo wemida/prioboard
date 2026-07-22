@@ -1,0 +1,122 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}API Documentation | PrioBoard{% endblock %}
+{% block body_class %}admin-screen{% endblock %}
+
+{% block body %}
+    {% set baseUrl = app.request.schemeAndHttpHost %}
+    {% set apiKey = settings.apiKey ?: 'YOUR_API_KEY' %}
+    <main class="admin-page api-docs">
+        <header class="admin-header">
+            <div><p class="eyebrow">Developer reference</p><h1>API documentation</h1></div>
+            <nav class="admin-nav">
+                <a class="button" href="{{ path('app_admin_settings') }}">Back to settings</a>
+                <a class="button" href="{{ path('app_board') }}">View board</a>
+            </nav>
+        </header>
+
+        <section class="panel api-docs-intro">
+            <div class="panel-heading">
+                <h2>Getting started</h2>
+                <p>The API exchanges JSON over HTTP. Reads are public; all card changes require the API key.</p>
+            </div>
+            <dl class="api-facts">
+                <div><dt>Base URL</dt><dd><code>{{ baseUrl }}/api</code></dd></div>
+                <div><dt>Content type</dt><dd><code>application/json</code></dd></div>
+                <div><dt>Authentication</dt><dd><code>X-API-Key: {{ apiKey }}</code></dd></div>
+            </dl>
+            <p class="muted">Keep this key private. Regenerating it in Settings invalidates the previous key immediately.</p>
+        </section>
+
+        <section class="api-endpoints" aria-label="API endpoints">
+            <article class="panel api-endpoint">
+                <div class="api-endpoint-heading"><span class="api-method api-method-get">GET</span><h2>/api/board</h2><span class="api-auth">Public</span></div>
+                <p>Returns display settings, column labels, and cards grouped by column.</p>
+                <h3>Request</h3><pre><code>curl "{{ baseUrl }}/api/board"</code></pre>
+                <h3>200 response</h3><pre><code>{
+  "settings": {
+    "skin": "color",
+    "fontSize": "medium",
+    "refreshInterval": 30,
+    "boardVersion": 12,
+    "updatedAt": "2026-07-22T12:00:00+00:00"
+  },
+  "columns": { "wip": "WIP", "prio1": "Prio 1", "prio2": "Prio 2" },
+  "cards": { "wip": [], "prio1": [], "prio2": [] }
+}</code></pre>
+            </article>
+
+            <article class="panel api-endpoint">
+                <div class="api-endpoint-heading"><span class="api-method api-method-get">GET</span><h2>/api/board/meta</h2><span class="api-auth">Public</span></div>
+                <p>Returns lightweight polling metadata. Fetch the board again when <code>boardVersion</code> changes.</p>
+                <h3>Request</h3><pre><code>curl "{{ baseUrl }}/api/board/meta"</code></pre>
+                <h3>200 response</h3><pre><code>{
+  "boardVersion": 12,
+  "refreshInterval": 30,
+  "updatedAt": "2026-07-22T12:00:00+00:00"
+}</code></pre>
+            </article>
+
+            <article class="panel api-endpoint">
+                <div class="api-endpoint-heading"><span class="api-method api-method-post">POST</span><h2>/api/cards</h2><span class="api-auth">API key</span></div>
+                <p>Creates a card at the end of a column.</p>
+                <h3>JSON fields</h3>
+                <div class="api-table-wrap"><table class="api-table"><thead><tr><th>Field</th><th>Required</th><th>Rules</th></tr></thead><tbody>
+                    <tr><td><code>title</code></td><td>Yes</td><td>Non-empty string; maximum 100 characters.</td></tr>
+                    <tr><td><code>column</code></td><td>No</td><td><code>wip</code>, <code>prio1</code>, or <code>prio2</code>; defaults to <code>wip</code>.</td></tr>
+                    <tr><td><code>color</code></td><td>No</td><td><code>neutral</code>, <code>red</code>, <code>orange</code>, <code>yellow</code>, <code>green</code>, or <code>blue</code>.</td></tr>
+                </tbody></table></div>
+                <h3>Request</h3><pre><code>curl -X POST "{{ baseUrl }}/api/cards" \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: {{ apiKey }}" \
+  -d '{"title":"Prepare release","column":"prio1","color":"blue"}'</code></pre>
+                <p><strong>Success:</strong> <code>201 Created</code> with the created card object.</p>
+            </article>
+
+            <article class="panel api-endpoint">
+                <div class="api-endpoint-heading"><span class="api-method api-method-put">PUT/PATCH</span><h2>/api/cards/{id}</h2><span class="api-auth">API key</span></div>
+                <p>Updates any combination of <code>title</code>, <code>column</code>, and <code>color</code>. Both methods act as partial updates.</p>
+                <h3>Request</h3><pre><code>curl -X PATCH "{{ baseUrl }}/api/cards/42" \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: {{ apiKey }}" \
+  -d '{"title":"Ship release","color":"green"}'</code></pre>
+                <p><strong>Success:</strong> <code>200 OK</code> with the updated card object.</p>
+            </article>
+
+            <article class="panel api-endpoint">
+                <div class="api-endpoint-heading"><span class="api-method api-method-delete">DELETE</span><h2>/api/cards/{id}</h2><span class="api-auth">API key</span></div>
+                <p>Deletes a card and normalizes the positions in its column.</p>
+                <h3>Request</h3><pre><code>curl -X DELETE "{{ baseUrl }}/api/cards/42" \
+  -H "X-API-Key: {{ apiKey }}"</code></pre>
+                <p><strong>Success:</strong> <code>204 No Content</code>.</p>
+            </article>
+
+            <article class="panel api-endpoint">
+                <div class="api-endpoint-heading"><span class="api-method api-method-post">POST</span><h2>/api/cards/{id}/move/{direction}</h2><span class="api-auth">API key</span></div>
+                <p>Moves a card one position or sends it to the end of another column.</p>
+                <p><strong>Directions:</strong> <code>up</code>, <code>down</code>, <code>wip</code>, <code>prio1</code>, or <code>prio2</code>.</p>
+                <h3>Request</h3><pre><code>curl -X POST "{{ baseUrl }}/api/cards/42/move/prio2" \
+  -H "X-API-Key: {{ apiKey }}"</code></pre>
+                <p><strong>Success:</strong> <code>200 OK</code> with the moved card object.</p>
+            </article>
+        </section>
+
+        <section class="panel api-reference">
+            <div class="panel-heading"><h2>Response reference</h2></div>
+            <h3>Card object</h3><pre><code>{
+  "id": 42,
+  "title": "Prepare release",
+  "column": "prio1",
+  "position": 1,
+  "color": "blue",
+  "updatedAt": "2026-07-22T12:00:00+00:00"
+}</code></pre>
+            <h3>Errors</h3>
+            <div class="api-table-wrap"><table class="api-table"><thead><tr><th>Status</th><th>Meaning</th></tr></thead><tbody>
+                <tr><td><code>403 Forbidden</code></td><td>The API key is missing or invalid.</td></tr>
+                <tr><td><code>404 Not Found</code></td><td>The card or move direction does not exist.</td></tr>
+                <tr><td><code>422 Unprocessable Content</code></td><td>A field failed validation; the JSON response includes an <code>error</code> value.</td></tr>
+            </tbody></table></div>
+        </section>
+    </main>
+{% endblock %}
