@@ -2,6 +2,7 @@
 
 namespace App\Tests;
 
+use App\Service\AppSettingsService;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class BoardSmokeTest extends WebTestCase
@@ -31,5 +32,26 @@ class BoardSmokeTest extends WebTestCase
         self::assertArrayHasKey('columns', $payload);
         self::assertArrayHasKey('cards', $payload);
         self::assertSame('WIP', $payload['columns']['wip']);
+    }
+
+    public function testBoardUsesTheConfiguredGermanLanguage(): void
+    {
+        $client = static::createClient();
+        $settingsService = static::getContainer()->get(AppSettingsService::class);
+        $settings = $settingsService->getSettings();
+        $settings->setLanguage('de');
+        static::getContainer()->get('doctrine')->getManager()->flush();
+
+        try {
+            $client->request('GET', '/');
+
+            self::assertResponseIsSuccessful();
+            self::assertSelectorTextContains('.admin-nav', 'Anmelden');
+            self::assertSelectorTextContains('.app-footer', 'quelloffene Anwendung');
+            self::assertSame('de', $client->getRequest()->getLocale());
+        } finally {
+            $settings->setLanguage('en');
+            static::getContainer()->get('doctrine')->getManager()->flush();
+        }
     }
 }

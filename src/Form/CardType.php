@@ -15,14 +15,14 @@ class CardType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'label' => 'Title',
+                'label' => 'form.card.title',
                 'attr' => [
                     'maxlength' => 100,
-                    'placeholder' => 'Keep the title short and readable',
+                    'placeholder' => 'form.card.title_placeholder',
                 ],
             ])
             ->add('columnKey', ChoiceType::class, [
-                'label' => 'Column',
+                'label' => 'form.card.column',
                 'choices' => [
                     'WIP' => Card::COLUMN_WIP,
                     'Prio 1' => Card::COLUMN_PRIO_1,
@@ -30,14 +30,14 @@ class CardType extends AbstractType
                 ],
             ])
             ->add('color', ChoiceType::class, [
-                'label' => 'Card color',
+                'label' => 'form.card.color',
                 'choices' => [
-                    'Neutral' => 'neutral',
-                    'Red' => 'red',
-                    'Orange' => 'orange',
-                    'Yellow' => 'yellow',
-                    'Green' => 'green',
-                    'Blue' => 'blue',
+                    'color.neutral' => 'neutral',
+                    'color.red' => 'red',
+                    'color.orange' => 'orange',
+                    'color.yellow' => 'yellow',
+                    'color.green' => 'green',
+                    'color.blue' => 'blue',
                 ],
             ]);
     }

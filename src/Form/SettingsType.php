@@ -16,30 +16,39 @@ class SettingsType extends AbstractType
     {
         $builder
             ->add('skin', ChoiceType::class, [
+                'label' => 'form.settings.display_mode',
                 'choices' => [
-                    'Color screen' => AppSettings::SKIN_COLOR,
-                    'Monochrome screen' => AppSettings::SKIN_MONO,
+                    'form.settings.color_screen' => AppSettings::SKIN_COLOR,
+                    'form.settings.monochrome_screen' => AppSettings::SKIN_MONO,
                 ],
             ])
             ->add('fontSize', ChoiceType::class, [
+                'label' => 'form.settings.font_size',
                 'choices' => [
-                    'Small' => AppSettings::FONT_SMALL,
-                    'Medium' => AppSettings::FONT_MEDIUM,
-                    'Large' => AppSettings::FONT_LARGE,
+                    'common.small' => AppSettings::FONT_SMALL,
+                    'common.medium' => AppSettings::FONT_MEDIUM,
+                    'common.large' => AppSettings::FONT_LARGE,
+                ],
+            ])
+            ->add('language', ChoiceType::class, [
+                'label' => 'form.settings.language',
+                'choices' => [
+                    'language.english' => AppSettings::LANGUAGE_ENGLISH,
+                    'language.german' => AppSettings::LANGUAGE_GERMAN,
                 ],
             ])
             ->add('refreshInterval', IntegerType::class, [
-                'label' => 'Refresh check interval in seconds',
+                'label' => 'form.settings.refresh_interval',
                 'attr' => [
                     'min' => 10,
                     'max' => 600,
                 ],
             ])
             ->add('deleteConfirmationEnabled', ChoiceType::class, [
-                'label' => 'Ask before deleting cards',
+                'label' => 'form.settings.delete_confirmation',
                 'choices' => [
-                    'Yes' => true,
-                    'No' => false,
+                    'common.yes' => true,
+                    'common.no' => false,
                 ],
                 'multiple' => false,
                 'required' => true,   // key part

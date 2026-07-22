@@ -18,6 +18,9 @@ class AppSettings
     public const FONT_MEDIUM = 'medium';
     public const FONT_LARGE = 'large';
 
+    public const LANGUAGE_ENGLISH = 'en';
+    public const LANGUAGE_GERMAN = 'de';
+
     public const SKINS = [
         self::SKIN_COLOR,
         self::SKIN_MONO,
@@ -27,6 +30,11 @@ class AppSettings
         self::FONT_SMALL,
         self::FONT_MEDIUM,
         self::FONT_LARGE,
+    ];
+
+    public const LANGUAGES = [
+        self::LANGUAGE_ENGLISH,
+        self::LANGUAGE_GERMAN,
     ];
 
     #[ORM\Id]
@@ -40,6 +48,10 @@ class AppSettings
     #[ORM\Column(length: 20)]
     #[Assert\Choice(choices: self::FONT_SIZES)]
     private string $fontSize = self::FONT_MEDIUM;
+
+    #[ORM\Column(length: 5, options: ['default' => self::LANGUAGE_ENGLISH])]
+    #[Assert\Choice(choices: self::LANGUAGES)]
+    private string $language = self::LANGUAGE_ENGLISH;
 
     #[ORM\Column]
     #[Assert\Range(min: 10, max: 600)]
@@ -87,6 +99,18 @@ class AppSettings
     public function setFontSize(string $fontSize): self
     {
         $this->fontSize = $fontSize;
+
+        return $this;
+    }
+
+    public function getLanguage(): string
+    {
+        return $this->language;
+    }
+
+    public function setLanguage(string $language): self
+    {
+        $this->language = $language;
 
         return $this;
     }

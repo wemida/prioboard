@@ -1,85 +1,81 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}PrioBoard | Settings{% endblock %}
+{% block title %}PrioBoard | {{ 'common.settings'|trans }}{% endblock %}
 {% block body_class %}admin-screen{% endblock %}
 
 {% block body %}
     <main class="admin-page">
         <header class="admin-header">
-            <div>
-                <h1>Priority Board</h1>
-            </div>
-            <nav class="admin-nav">
-                <a class="button" href="{{ path('app_board') }}">View board</a>
-            </nav>
+            <div><h1>Priority Board</h1></div>
+            <nav class="admin-nav"><a class="button" href="{{ path('app_board') }}">{{ 'common.view_board'|trans }}</a></nav>
         </header>
 
         {% for label, messages in app.flashes %}
             {% for message in messages %}
-                <div class="flash flash-{{ label == 'error' ? 'error' : 'success' }}">{{ message }}</div>
+                <div class="flash flash-{{ label == 'error' ? 'error' : 'success' }}">{{ message|trans }}</div>
             {% endfor %}
         {% endfor %}
 
         <section class="settings-grid">
             <article class="panel">
                 <div class="panel-heading">
-                    <h2>Display settings</h2>
-                    <p>Choose the public board look and feel.</p>
+                    <h2>{{ 'settings.display.title'|trans }}</h2>
+                    <p>{{ 'settings.display.description'|trans }}</p>
                 </div>
                 {{ form_start(settingsForm, { attr: { class: 'stack-form' } }) }}
                     {{ form_row(settingsForm.skin) }}
                     {{ form_row(settingsForm.fontSize) }}
+                    {{ form_row(settingsForm.language) }}
                     {{ form_row(settingsForm.refreshInterval) }}
                     {{ form_row(settingsForm.deleteConfirmationEnabled) }}
-                    <button class="button button-primary" type="submit">Save settings</button>
+                    <button class="button button-primary" type="submit">{{ 'settings.display.save'|trans }}</button>
                 {{ form_end(settingsForm) }}
             </article>
 
             <article class="panel">
                 <div class="panel-heading">
-                    <h2>API access</h2>
-                    <p>The API is readonly and publicly available. Write operations require the API key in the <code>X-API-Key</code> header.</p>
+                    <h2>{{ 'settings.api.title'|trans }}</h2>
+                    <p>{{ 'settings.api.description'|trans }}</p>
                 </div>
                 <div class="stack-form">
                     <label>
-                        <span>API key</span>
+                        <span>{{ 'common.api_key'|trans }}</span>
                         <div class="api-key-row">
                             <input type="text" value="{{ settings.apiKey }}" readonly disabled>
                             <form method="post" action="{{ path('app_admin_settings_api_key_regenerate') }}">
-                                <button class="button button-primary" type="submit">Generate</button>
+                                <button class="button button-primary" type="submit">{{ 'settings.api.generate'|trans }}</button>
                             </form>
                         </div>
                     </label>
                 </div>
-                <br/><br/>
+                <br><br>
                 <div class="api-example">
-                    <p><strong>Read board:</strong> <code>GET {{ absolute_url(path('api_board')) }}</code></p>
-                    <p><strong>Create card:</strong> <code>POST {{ absolute_url(path('api_card_create')) }}</code></p>
-                    <a class="button" href="{{ path('app_admin_api_docs') }}">View full API documentation</a>
+                    <p><strong>{{ 'settings.api.read_board'|trans }}</strong> <code>GET {{ absolute_url(path('api_board')) }}</code></p>
+                    <p><strong>{{ 'settings.api.create_card'|trans }}</strong> <code>POST {{ absolute_url(path('api_card_create')) }}</code></p>
+                    <a class="button" href="{{ path('app_admin_api_docs') }}">{{ 'settings.api.view_docs'|trans }}</a>
                 </div>
             </article>
 
             <article class="panel">
                 <div class="panel-heading">
-                    <h2>Login settings</h2>
-                    <p>Only one editor account exists for this board.</p>
+                    <h2>{{ 'settings.login.title'|trans }}</h2>
+                    <p>{{ 'settings.login.description'|trans }}</p>
                 </div>
                 {{ form_start(accountForm, { attr: { class: 'stack-form' } }) }}
                     {{ form_row(accountForm.username) }}
                     {{ form_row(accountForm.plainPassword) }}
-                    <button class="button button-primary" type="submit">Save login</button>
+                    <button class="button button-primary" type="submit">{{ 'settings.login.save'|trans }}</button>
                 {{ form_end(accountForm) }}
             </article>
 
             <article class="panel">
                 <div class="panel-heading">
-                    <h2>Info</h2>
-                    <p>Priority Board is a simple, open-source Kanban like taskboard app to keep track of your work.
-                        <br /><a href="https://github.com/wemida/prioboard" target="_blank">View the project and source code on GitHub</a>.</p>
-                    <p>For E-Paper and monochrome Screens you can change the skin to black and white (monochrome skin).</p>
+                    <h2>{{ 'settings.info.title'|trans }}</h2>
+                    <p>{{ 'settings.info.description'|trans }}
+                        <br><a href="https://github.com/wemida/prioboard" target="_blank" rel="noopener noreferrer">{{ 'footer.github'|trans }}</a>.</p>
+                    <p>{{ 'settings.info.monochrome'|trans }}</p>
                 </div>
             </article>
         </section>
-
     </main>
 {% endblock %}

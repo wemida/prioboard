@@ -15,14 +15,14 @@ class AccountType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, [
-                'label' => 'Username',
+                'label' => 'auth.username',
             ])
             ->add('plainPassword', PasswordType::class, [
-                'label' => 'New password',
+                'label' => 'form.account.new_password',
                 'mapped' => false,
                 'required' => false,
                 'empty_data' => '',
-                'help' => 'Leave empty to keep the current password.',
+                'help' => 'form.account.password_help',
             ]);
     }
 

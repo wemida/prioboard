@@ -7,6 +7,15 @@ class BoardApp {
         this.columnsContainer = root.querySelector('[data-board-columns]');
         this.editable = root.dataset.editable === 'true';
         this.deleteConfirmationEnabled = root.dataset.deleteConfirmation === 'true';
+        this.labels = {
+            chooseColor: root.dataset.labelChooseColor || 'Choose color',
+            save: root.dataset.labelSave || 'Save',
+            cancel: root.dataset.labelCancel || 'Cancel',
+            editCard: root.dataset.labelEditCard || 'Edit card',
+            deleteCard: root.dataset.labelDeleteCard || 'Delete card',
+            deleteConfirmation: root.dataset.labelDeleteConfirmation || 'Delete this card?',
+            requestFailed: root.dataset.labelRequestFailed || 'Request failed.',
+        };
         this.createUrl = root.dataset.createUrl || '';
         this.updateTemplate = root.dataset.cardUpdateTemplate || '';
         this.deleteTemplate = root.dataset.cardDeleteTemplate || '';
@@ -392,9 +401,9 @@ class BoardApp {
             <div class="inline-edit-form">
                 <div class="quick-add-form inline-edit-row">
                     <input class="quick-add-input" type="text" maxlength="100" value="${title}" data-inline-edit-title="${cardId}">
-                    <button class="button color-picker-button color-${color}" type="button" data-color-button data-selected-color="${color}" aria-label="Choose color"></button>
-                    <button class="button button-primary icon-button" type="button" data-inline-edit-save="${cardId}" aria-label="Save">✓</button>
-                    <button class="button icon-button" type="button" data-inline-edit-cancel="${cardId}" aria-label="Cancel">×</button>
+                    <button class="button color-picker-button color-${color}" type="button" data-color-button data-selected-color="${color}" aria-label="${this.labels.chooseColor}"></button>
+                    <button class="button button-primary icon-button" type="button" data-inline-edit-save="${cardId}" aria-label="${this.labels.save}">✓</button>
+                    <button class="button icon-button" type="button" data-inline-edit-cancel="${cardId}" aria-label="${this.labels.cancel}">×</button>
                 </div>
                 <div class="color-picker" data-color-picker hidden>
                     ${this.renderColorOptions()}
@@ -432,8 +441,8 @@ class BoardApp {
         card.innerHTML = `
             <p>${this.renderCardIndex(card)} ${title}</p>
             <div class="card-actions">
-                <button class="button icon-button" type="button" data-card-edit="${cardId}" aria-label="Edit card">✎</button>
-                <button class="button icon-button button-danger" type="button" data-card-delete="${cardId}" aria-label="Delete card">✕</button>
+                <button class="button icon-button" type="button" data-card-edit="${cardId}" aria-label="${this.labels.editCard}">✎</button>
+                <button class="button icon-button button-danger" type="button" data-card-delete="${cardId}" aria-label="${this.labels.deleteCard}">✕</button>
             </div>
         `;
     }
@@ -483,7 +492,7 @@ class BoardApp {
     }
 
     async deleteCard(cardId) {
-        if (this.deleteConfirmationEnabled && !window.confirm('Delete this card?')) {
+        if (this.deleteConfirmationEnabled && !window.confirm(this.labels.deleteConfirmation)) {
             return;
         }
 
@@ -505,7 +514,7 @@ class BoardApp {
 
         const payload = await response.json();
         if (!response.ok) {
-            window.alert(payload.error || 'Request failed.');
+            window.alert(payload.error || this.labels.requestFailed);
             return;
         }
 

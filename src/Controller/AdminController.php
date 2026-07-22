@@ -44,7 +44,7 @@ class AdminController extends AbstractController
         if ($settingsForm->isSubmitted() && $settingsForm->isValid()) {
             $entityManager->flush();
             $settingsService->touchBoard();
-            $this->addFlash('success', 'Settings updated.');
+            $this->addFlash('success', 'flash.settings_updated');
 
             return $this->redirectToRoute('app_admin_settings');
         }
@@ -53,7 +53,7 @@ class AdminController extends AbstractController
             $plainPassword = (string) $accountForm->get('plainPassword')->getData();
             if ($plainPassword !== '') {
                 if (mb_strlen($plainPassword) < 4) {
-                    $this->addFlash('error', 'Password must be at least 4 characters.');
+                    $this->addFlash('error', 'flash.password_too_short');
 
                     return $this->redirectToRoute('app_admin_settings');
                 }
@@ -62,7 +62,7 @@ class AdminController extends AbstractController
             }
 
             $entityManager->flush();
-            $this->addFlash('success', 'Login updated.');
+            $this->addFlash('success', 'flash.login_updated');
 
             return $this->redirectToRoute('app_admin_settings');
         }
@@ -91,7 +91,7 @@ class AdminController extends AbstractController
         $settings->setApiKey(bin2hex(random_bytes(16)));
         $entityManager->flush();
         $settingsService->touchBoard();
-        $this->addFlash('success', 'API key regenerated.');
+        $this->addFlash('success', 'flash.api_key_regenerated');
 
         return $this->redirectToRoute('app_admin_settings');
     }

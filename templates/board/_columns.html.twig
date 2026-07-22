@@ -4,7 +4,7 @@
             <div class="column-header-main">
                 <h2>{{ label }}</h2>
                 {% if editable %}
-                    <button class="button icon-button column-add-trigger" type="button" data-column-focus="{{ key }}" aria-label="Add card">+</button>
+                    <button class="button icon-button column-add-trigger" type="button" data-column-focus="{{ key }}" aria-label="{{ 'board.add_card'|trans }}">+</button>
                 {% endif %}
             </div>
             <span>{{ cardsByColumn[key]|length }}</span>
@@ -24,14 +24,14 @@
 
                     {% if editable %}
                         <div class="card-actions">
-                            <button class="button icon-button" type="button" data-card-edit="{{ card.id }}" aria-label="Edit card">✎</button>
-                            <button class="button icon-button button-danger" type="button" data-card-delete="{{ card.id }}" aria-label="Delete card">✕</button>
+                            <button class="button icon-button" type="button" data-card-edit="{{ card.id }}" aria-label="{{ 'board.edit_card'|trans }}">✎</button>
+                            <button class="button icon-button button-danger" type="button" data-card-delete="{{ card.id }}" aria-label="{{ 'board.delete_card'|trans }}">✕</button>
                         </div>
                     {% endif %}
                 </article>
             {% else %}
                 <div class="board-card board-card-empty">
-                    <p>No items</p>
+                    <p>{{ 'board.no_items'|trans }}</p>
                 </div>
             {% endfor %}
         </div>
@@ -43,10 +43,10 @@
                         class="quick-add-input"
                         type="text"
                         maxlength="100"
-                        placeholder="Add card and press Enter"
+                        placeholder="{{ 'board.quick_add_placeholder'|trans }}"
                         data-quick-add-input="{{ key }}"
                     >
-                    <button class="button color-picker-button color-neutral" type="button" data-color-button data-selected-color="neutral" aria-label="Choose color"></button>
+                    <button class="button color-picker-button color-neutral" type="button" data-color-button data-selected-color="neutral" aria-label="{{ 'board.choose_color'|trans }}"></button>
                     <button class="button button-primary" type="button" data-quick-add-submit="{{ key }}">+</button>
                 </div>
                 <div class="color-picker" data-color-picker hidden>
@@ -55,10 +55,10 @@
                             class="button color-picker-option color-{{ color }}"
                             type="button"
                             data-color-option="{{ color }}"
-                            aria-label="{{ color|capitalize }}"
+                            aria-label="{{ ('color.' ~ color)|trans }}"
                         >
                             <span class="color-swatch color-{{ color }}"></span>
-                            <span>{{ color|capitalize }}</span>
+                            <span>{{ ('color.' ~ color)|trans }}</span>
                         </button>
                     {% endfor %}
                 </div>

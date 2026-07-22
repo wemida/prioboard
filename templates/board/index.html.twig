@@ -14,6 +14,13 @@
         data-board-app
         data-editable="{{ editable ? 'true' : 'false' }}"
         data-delete-confirmation="{{ settings.deleteConfirmationEnabled ? 'true' : 'false' }}"
+        data-label-choose-color="{{ 'board.choose_color'|trans }}"
+        data-label-save="{{ 'common.save'|trans }}"
+        data-label-cancel="{{ 'common.cancel'|trans }}"
+        data-label-edit-card="{{ 'board.edit_card'|trans }}"
+        data-label-delete-card="{{ 'board.delete_card'|trans }}"
+        data-label-delete-confirmation="{{ 'board.delete_confirmation'|trans }}"
+        data-label-request-failed="{{ 'board.request_failed'|trans }}"
         data-create-url="{{ path('app_board_manage_card_create') }}"
         data-card-update-template="{{ path('app_board_manage_card_update', { id: '__ID__' }) }}"
         data-card-delete-template="{{ path('app_board_manage_card_delete', { id: '__ID__' }) }}"
@@ -26,10 +33,10 @@
             </div>
             <nav class="admin-nav">
                 {% if editable %}
-                    <a class="button" href="{{ path('app_admin_settings') }}">Settings</a>
-                    <a class="button" href="{{ path('app_logout') }}">Logout</a>
+                    <a class="button" href="{{ path('app_admin_settings') }}">{{ 'common.settings'|trans }}</a>
+                    <a class="button" href="{{ path('app_logout') }}">{{ 'auth.logout'|trans }}</a>
                 {% else %}
-                    <a class="button" href="{{ path('app_login') }}" data-action="click->modal#open">Login</a>
+                    <a class="button" href="{{ path('app_login') }}" data-action="click->modal#open">{{ 'auth.login'|trans }}</a>
                 {% endif %}
             </nav>
         </header>
@@ -50,7 +57,7 @@
             <div class="modal {{ error ? '' : 'hidden' }}" data-modal-target="modal">
                 <section class="panel">
                     <div class="panel-heading">
-                        <h1>Login</h1>
+                        <h1>{{ 'auth.login'|trans }}</h1>
                     </div>
 
                     {% if error %}
@@ -59,19 +66,19 @@
 
                     <form action="{{ path('app_login') }}" method="post" class="stack-form" data-turbo="false">
                         <label>
-                            <span>Username</span>
+                            <span>{{ 'auth.username'|trans }}</span>
                             <input type="text" name="_username" value="{{ last_username }}" autocomplete="username" required {{ error ? 'autofocus' : '' }}>
                         </label>
                         <label>
-                            <span>Password</span>
+                            <span>{{ 'auth.password'|trans }}</span>
                             <input type="password" name="_password" autocomplete="current-password" required>
                         </label>
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                        <button class="button button-primary" type="submit">Login</button>
+                        <button class="button button-primary" type="submit">{{ 'auth.login'|trans }}</button>
                     </form>
 
                     <div class="modal-close-row">
-                        <button class="button" data-action="click->modal#close">Cancel</button>
+                        <button class="button" data-action="click->modal#close">{{ 'common.cancel'|trans }}</button>
                     </div>
                 </section>
             </div>
